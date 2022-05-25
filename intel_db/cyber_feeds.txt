@@ -1,0 +1,8 @@
+# test comment
+https://threatpost.com/feed
+#https://www.hackread.com/feed/
+#https://www.secureworks.com/rss?feed=research&category=threat-analysis
+#https://www.secureworks.com/rss?feed=blog&category=research-intelligence
+#https://krebsonsecurity.com/feed/
+#https://feeds.feedburner.com/securityweek
+#https://feeds.feedburner.com/TheHackersNews
