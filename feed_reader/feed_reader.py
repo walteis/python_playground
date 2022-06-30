@@ -4,8 +4,6 @@
 Purpose: 
 	Reads a list of rss feeds and returns feed items that match given search terms
 
-Version: 0.2
-
 '''
 
 import feedparser
@@ -28,6 +26,9 @@ def getTermsFromFile(term_file):
 def readFeeds(feed_file, numdays, terms, inc_desc):
 	
 	# print output header
+	print("<html> \n <head> \n <title>News Roundup</title> \n")
+	print('<link rel="stylesheet" href="feed_style.css">')
+	print("</head><body>")
 	print("<h1>News Roundup</h1> \n <h3>feed_reader v.1</h3>") 
 	
 	
@@ -63,11 +64,14 @@ def readFeeds(feed_file, numdays, terms, inc_desc):
 						pass
 	except:
 		print("Error reading feed list.")
+	
+		print("</body></html>")
 
 def getSmartTerms(feed_file, numdays):
 	
 	tag_set = dict()
 	terms = list()
+	bogus_tags = ["thumbnail", "large", "medium", "full"]
 	try:
 		txt_file = open(feed_file, "r")
 		feeds = txt_file.read().splitlines()
@@ -81,22 +85,17 @@ def getSmartTerms(feed_file, numdays):
 			for post in feed.entries:
 				#print(post.tags)
 				for tag in post.tags:
-					#tag_set.update({tag.term: 1})
-					if tag.term.lower() in tag_set:
-						x = tag_set.get(tag.term.lower())
-						tag_set.update({tag.term.lower(): x+1})
-					else:
-						tag_set.update({tag.term.lower(): 1})
+					if not (tag.term.lower in bogus_tags):
+						if tag.term.lower() in tag_set:
+							x = tag_set.get(tag.term.lower())
+							tag_set.update({tag.term.lower(): x+1})
+						else:
+							tag_set.update({tag.term.lower(): 1})
 				    
 	except:
 		pass	
 		
-	#print(tag_set)	
-	#clean out known bogus tags
-	tag_set.pop("thumbnail")
-	tag_set.pop("large")
-	tag_set.pop("medium")
-	tag_set.pop("full")
+
 	out_dict = reversed(sorted(tag_set.items(), key = lambda kv:(kv[1], kv[0])))		
 	for k,v in out_dict:
 		if v > 3:
